@@ -76,9 +76,9 @@ def _create_app():
 		for i, ticker in enumerate(tickers):
 			try:
 				# IEX API
-				# df = DataReader(ticker, 'iex', dt.datetime(2018, 1, 1), dt.datetime.now())
+				df = DataReader(ticker, 'iex', dt.datetime(2018, 1, 1), dt.datetime.now())
 				# AlphaVantage API
-				df = get_data_alphavantage(symbols=ticker, start=dt.datetime(2018, 1, 1), end=dt.datetime.now(), api_key='FFCPDAKPHICMS4D0')
+				# df = get_data_alphavantage(symbols=ticker, start=dt.datetime(2018, 1, 1), end=dt.datetime.now(), api_key='FFCPDAKPHICMS4D0')
 			except:
 				graphs.append(html.H3(
 					'Data is not available for {}'.format(ticker),
