@@ -25,7 +25,10 @@ SECRET_KEY = 'qh1rx5vu5bw3i5+)oax*e!56a$x!ix*&fl7@a6r+j9q7s!@gxi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cherry-media-dash.herokuapp.com']
+ALLOWED_HOSTS = [
+    'cherry-media-dash.herokuapp.com',
+    '127.0.0.1',
+]
 
 
 # Application definition
