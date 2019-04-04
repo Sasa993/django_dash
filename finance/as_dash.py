@@ -5,8 +5,14 @@ from dash.dependencies import Output, Input
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import datetime as dt
+from datetime import datetime
+from datetime import timedelta
 import colorlover as cl
+
+# today's date
+end = datetime.now()
+# five years ago - IEX's limit
+start = end - timedelta(days=1825)
 
 pd.core.common.is_list_like = pd.api.types.is_list_like
 
@@ -76,7 +82,7 @@ def _create_app():
 		for i, ticker in enumerate(tickers):
 			try:
 				# IEX API
-				df = DataReader(ticker, 'iex', dt.datetime(2018, 1, 1), dt.datetime.now())
+				df = DataReader(ticker, 'iex', start, end)
 				# AlphaVantage API
 				# df = get_data_alphavantage(symbols=ticker, start=dt.datetime(2018, 1, 1), end=dt.datetime.now(), api_key='FFCPDAKPHICMS4D0')
 			except:
