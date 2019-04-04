@@ -1,6 +1,6 @@
 import pandas as pd
 from pandas_datareader.data import DataReader
-from pandas_datareader.data import get_data_alphavantage
+# from pandas_datareader.data import get_data_alphavantage
 from dash.dependencies import Output, Input
 import dash
 import dash_core_components as dcc
@@ -34,7 +34,7 @@ def dispatcher(request):
 
 
 def _create_app():
-	app = dash.Dash(url_base_pathname="/dash/", csrf_protect=False)
+	app = dash.Dash(url_base_pathname="/", csrf_protect=False)
 	app.config.suppress_callback_exceptions = True
 	app.layout = html.Div([
 		html.Div([
@@ -50,8 +50,8 @@ def _create_app():
 					'margin-top': '20px',
 					'margin-bottom': 0
 				}),
-			html.A('Home',
-				href='/home/',
+			html.A('Companies-Test',
+				href='/companies/',
 				style={
 					'color': 'red',
 					'display': 'inline',
@@ -76,7 +76,7 @@ def _create_app():
 		for i, ticker in enumerate(tickers):
 			try:
 				# IEX API
-				df = DataReader(ticker, 'iex', dt.datetime(2017, 1, 1), dt.datetime.now())
+				df = DataReader(ticker, 'iex', dt.datetime(2018, 1, 1), dt.datetime.now())
 				# AlphaVantage API
 				# df = get_data_alphavantage(symbols=ticker, start=dt.datetime(2017, 1, 1), end=dt.datetime.now(), api_key='FFCPDAKPHICMS4D0')
 			except:
@@ -140,7 +140,7 @@ def bbands(price, window_size=10, num_of_std=5):
 
 	return rolling_mean, upper_band, lower_band
 
-
 if __name__ == "__main__":
 	app = _create_app()
 	app.run_server()
+	

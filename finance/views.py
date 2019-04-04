@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from .models import Company
 from .as_dash import dispatcher
 
+
 def company_article_list(request):
 	return render(request, "finance/plotly.html", {})
 
@@ -34,7 +35,8 @@ class ChartData(APIView):
 		return Response(data)
 
 
-### dash ###
+# Dash
+# return HttpResponseRedirect(reverse('news-year-archive', args=(year,)))
 # **kwargs takes all other arguments that are pass in
 def dash(request, **kwargs):
 	return HttpResponse(dispatcher(request))
