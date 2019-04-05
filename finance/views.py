@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from .models import Company
 from .as_dash import dispatcher
 
+from django.template.loader import get_template
+
 
 def company_article_list(request):
 	return render(request, "finance/plotly.html", {})
@@ -34,11 +36,15 @@ class ChartData(APIView):
 
 		return Response(data)
 
-
 # Dash
-# return HttpResponseRedirect(reverse('news-year-archive', args=(year,)))
+# return HttpResponseRedirect(reverse('news-year-archive', args=(year,))) I PROBAJ DJANGO TAGS I PROBAJ SA KLASAMA
 # **kwargs takes all other arguments that are pass in
-def dash(request, **kwargs):
+# def dash(request, **kwargs):
+# 	template_name = get_template("finance/test.html")
+# 	return HttpResponse(dispatcher(request), template_name)
+
+
+def dash(request):
 	return HttpResponse(dispatcher(request))
 
 
