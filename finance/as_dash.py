@@ -1,6 +1,6 @@
 import pandas as pd
 from pandas_datareader.data import DataReader
-# from pandas_datareader.data import get_data_alphavantage
+from pandas_datareader.data import get_data_alphavantage
 from dash.dependencies import Output, Input
 import dash
 import dash_core_components as dcc
@@ -12,7 +12,9 @@ import colorlover as cl
 # today's date
 end = datetime.now()
 # five years ago - IEX's limit
-start = end - timedelta(days=1825)
+# start = end - timedelta(days=1825)
+# every possible year
+start = datetime(1900, 1, 1)
 
 pd.core.common.is_list_like = pd.api.types.is_list_like
 
@@ -67,7 +69,7 @@ def _create_app():
 		dcc.Dropdown(
 			id='stock-ticker-input',
 			options=[{'label': s[0], 'value': s[1]} for s in zip(df_symbol.Company, df_symbol.Symbol)],
-			value=['GOOG', 'TSLA'],  # default graphs/on loading the page
+			value=['AAPL', 'TSLA'],  # default graphs/on loading the page
 			multi=True  # it's possible to have multiple graphs
 		),
 		html.Div(id='graphs'),
@@ -82,9 +84,10 @@ def _create_app():
 		for i, ticker in enumerate(tickers):
 			try:
 				# IEX API
-				df = DataReader(ticker, 'iex', start, end)
+				# df = DataReader(ticker, 'iex', start, end)
 				# AlphaVantage API
 				# df = get_data_alphavantage(symbols=ticker, start=dt.datetime(2018, 1, 1), end=dt.datetime.now(), api_key='FFCPDAKPHICMS4D0')
+				df = get_data_alphavantage(symbols=ticker, start=start, end=end, api_key='FFCPDAKPHICMS4D0')
 			except:
 				graphs.append(html.H3(
 					'Data is not available for {}'.format(ticker),
