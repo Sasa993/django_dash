@@ -8,6 +8,7 @@ import dash_html_components as html
 from datetime import datetime
 from datetime import timedelta
 import colorlover as cl
+import re
 
 # today's date
 end = datetime.now()
@@ -58,13 +59,6 @@ def _create_app():
 					'margin-top': '20px',
 					'margin-bottom': 0
 				}),
-			html.A('Companies-Test',
-				href='/companies/',
-				style={
-					'color': 'red',
-					'display': 'inline',
-					'margin-left': '54%'
-				})
 		]),
 		dcc.Dropdown(
 			id='stock-ticker-input',
@@ -149,7 +143,23 @@ def bbands(price, window_size=10, num_of_std=5):
 
 	return rolling_mean, upper_band, lower_band
 
+
+# a hack to get rid of carriage returns in the html returned by the call to dash_dispatcher
+def clean_dash_content(dash_content):
+	string_content = str(dash_content)
+	string_content = string_content.replace("\\n   ", "")
+	string_content = string_content.replace("\\\\n", "")
+	string_content = string_content.replace("\\\'", "")
+	string_content = string_content.replace(">\\n<", "><")
+	string_content = string_content[:-6]
+	string_content = string_content[1:]
+	string_content = re.sub('\s+',' ', string_content)
+	string_content = string_content[1:]
+	cleaned_dash_content = string_content
+
+	return cleaned_dash_content
+
+
 if __name__ == "__main__":
 	app = _create_app()
 	app.run_server()
-	

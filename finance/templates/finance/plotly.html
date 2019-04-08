@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<div class="row">
-		<div id="articles" style="width:1400px; height:800px;"></div>
+{% extends "finance/base.html" %}
+
+{% block title %}
+	Companies
+{% endblock title %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div id="articles" style="width:1400px; height:800px;"></div>
+		</div>
 	</div>
-	<p>Test Here</p>
+{% endblock content %}
+
+{% block dodatni_js %}
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
 	</script>
@@ -46,7 +51,6 @@
 				};
 				Plotly.newPlot('articles', data, layout);
 			};
-		})
+		});
 	</script>
-</body>
-</html>
+{% endblock dodatni_js %}

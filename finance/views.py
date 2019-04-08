@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
-
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.response import Response
@@ -8,8 +7,7 @@ from rest_framework.views import APIView
 
 from .models import Company
 from .as_dash import dispatcher
-
-from django.template.loader import get_template
+from .as_dash import clean_dash_content
 
 
 def company_article_list(request):
@@ -36,16 +34,14 @@ class ChartData(APIView):
 
 		return Response(data)
 
-# Dash
-# return HttpResponseRedirect(reverse('news-year-archive', args=(year,))) I PROBAJ DJANGO TAGS I PROBAJ SA KLASAMA
-# **kwargs takes all other arguments that are pass in
-# def dash(request, **kwargs):
-# 	template_name = get_template("finance/test.html")
-# 	return HttpResponse(dispatcher(request), template_name)
-
 
 def dash(request):
-	return HttpResponse(dispatcher(request))
+	dash_content = HttpResponse(dispatcher(request), content_type='application/json').getvalue()
+	# clean the dash HMTL content, using clean_dash_content from as_dash.py (the content contains lots of unnecessary characters like '\n')
+	dash_content = clean_dash_content(dash_content)
+	context = {'dash_content': dash_content}
+
+	return render(request, 'finance/historical_charts.html', context)
 
 
 @csrf_exempt
